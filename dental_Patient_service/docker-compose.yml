@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  dental-mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=dental_clinic
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
+      - MYSQL_NAME=dental_app
+    ports:
+      - 1112:3306
+
+  patient_service:
+    image: patient_service
+    depends_on:
+      - dental-mysql
+    ports:
+      - 1070:8040
+    environment:
+      - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
+      - DATABASE_HOST=dental-mysql
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_NAME=dental_clinic
+    build:
+      context: .
+      dockerfile: Dockerfile
+

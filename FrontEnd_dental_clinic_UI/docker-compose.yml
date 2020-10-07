@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+
+  dental_ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    command: npm run start
+    container_name: dental_ui
+    ports:
+      - "1080:3000"
+    volumes:
+      - ./:/dental_ui
+      - /dental_ui/node_modules
+  
