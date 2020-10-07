@@ -96,7 +96,6 @@ public class EmployeeServiceimpl implements EmployeeService {
 
     public List<Employee> getEmployeeList() {
         List<Employee> employeeList = repository.findAll();
-        System.out.println(employeeList);
         return employeeList;
     }
 

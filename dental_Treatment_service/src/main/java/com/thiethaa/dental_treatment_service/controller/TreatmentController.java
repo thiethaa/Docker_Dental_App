@@ -39,7 +39,6 @@ public class TreatmentController {
         ResponseEntity<Dentist[]> response = restTemplate.getForEntity(url, Dentist[].class);
 
         Dentist[] dentists = null;
-        System.out.println("response code: " + response.getStatusCode().value());
         if (response != null && response.getStatusCode().is2xxSuccessful() && response.hasBody() && response.getBody().length > 0) {
           dentists = response.getBody();
             for (Dentist d : dentists) {
