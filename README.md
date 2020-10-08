@@ -1,6 +1,21 @@
 # Docker_Dental_App
 
+Step by Step dockerize microservice:
+1. build jar file
+                    
+                    mvn install -DskipTests
+                    
+2. create docker-compose.yml file on the main root folder : https://github.com/thiethaa/Docker_Dental_App/blob/master/docker-compose.yml
+3. build image
 
+                    docker-compose up -d dental-mysql
+                    docker-compose up -d eureka-server
+                    docker-compose up
+4. stop server
+
+                    docker-compose down
+
+Step by step pull docker image, create and run it. locally:
 1. create Empty directory and create docker-compose.yml then Copy-Paste this yml file:
           version: '3'
 
@@ -69,7 +84,13 @@ services:
 5. To Stop the Server
           docker-compose down
 
-add dental_Services>> open Postman : form data (file:file, text:title,text:description)
-          POST: http://localhost:8020/dentaltreatments/uploadTreatment   
-
+add dental_Services>> open Postman : 
+          
+          form data (file:file, text:title,text:description)
+          POST: http://localhost:8020/dentaltreatments/uploadTreatment  
+          
+add dental_employee >> open Postman : 
+          
+          form data (file:file,text:name, text:position,text:email,text:fb,text:twitter,text:ig,text:phone)
+          POST: http://localhost:8030/dentalemployee/addEmployee
         
