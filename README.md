@@ -2,10 +2,15 @@
 docker image :
           
 https://hub.docker.com/repository/docker/thiethaa/dental-ui
+
 https://hub.docker.com/repository/docker/thiethaa/dental-eureka
+
 https://hub.docker.com/repository/docker/thiethaa/dental-treatment
+
 https://hub.docker.com/repository/docker/thiethaa/dental-employee
+
 https://hub.docker.com/repository/docker/thiethaa/dental-patient
+
             
 Step by Step dockerize microservice:
 1. build jar file
