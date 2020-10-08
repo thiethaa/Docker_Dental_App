@@ -76,6 +76,6 @@ add dental_Services>> open Postman :
           
 add dental_employee >> open Postman : 
           
-          form data (file:file,text:name, text:position,text:email,text:fb,                text:twitter,text:ig,text:phone)
+          form data (file:file,text:name, text:position,text:email,text:fb,text:twitter,text:ig,text:phone)
           POST: http://localhost:8030/dentalemployee/addEmployee
         
