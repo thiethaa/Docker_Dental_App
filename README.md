@@ -11,7 +11,8 @@ Step by Step dockerize microservice:
                     docker-compose up -d dental-mysql
                     docker-compose up -d eureka-server
                     docker-compose up
-4. stop server
+4. run App on localhost:3000
+5. stop server
 
                     docker-compose down
 
