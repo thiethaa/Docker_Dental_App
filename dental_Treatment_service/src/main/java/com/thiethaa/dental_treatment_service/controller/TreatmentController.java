@@ -4,6 +4,7 @@ import com.thiethaa.dental_treatment_service.exception.MyException;
 import com.thiethaa.dental_treatment_service.model.Dentist;
 import com.thiethaa.dental_treatment_service.model.Treatment;
 import com.thiethaa.dental_treatment_service.service.TreatmentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/dentaltreatments")
+@Slf4j
 public class TreatmentController {
 
     @Autowired
@@ -31,26 +33,6 @@ public class TreatmentController {
     @Autowired
     RestTemplate restTemplate;
 
-    @GetMapping("/dentistbytreatment/{title}")
-    public Dentist[] getDentistByTreatment(@PathVariable("title") String title) {
-        Treatment dentalTreatment = service.getTreatmentByTitle(title);
-
-        String url = "http://localhost:8030/dentalemployee/employeeList";
-        ResponseEntity<Dentist[]> response = restTemplate.getForEntity(url, Dentist[].class);
-
-        Dentist[] dentists = null;
-        if (response != null && response.getStatusCode().is2xxSuccessful() && response.hasBody() && response.getBody().length > 0) {
-          dentists = response.getBody();
-            for (Dentist d : dentists) {
-                d.getEmployeeID();
-                d.getEmployeeName();
-                d.setTitle(dentalTreatment.getTitle());
-                d.getEmail();
-                d.getPhone();
-            }
-        }
-        return dentists;
-    }
 
     @GetMapping("/treatmentList")
     public ResponseEntity<List<Treatment>> getTreatmentList() {
@@ -69,21 +51,6 @@ public class TreatmentController {
         Treatment treatment = service.getTreatmentByTitle(title);
         return treatment;
     }
-
-    @PostMapping(value = "/uploadTreatment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Treatment uploadTreatmentFile(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("description") String description,
-                                         @RequestParam("title") String title) {
-        Treatment treatment = service.storeTreatmentFile(file, description, title);
-        return treatment;
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<Treatment> updateTreatment(@RequestBody Treatment treatment) {
-        Treatment newTreatment = service.updateTreatmentFile(treatment);
-        return new ResponseEntity<Treatment>(newTreatment, new HttpHeaders(), HttpStatus.OK);
-    }
-
     @GetMapping("/downloadFile/{id}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String id, HttpServletRequest req, HttpServletResponse response) {
         // Load file from database
@@ -110,9 +77,50 @@ public class TreatmentController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
     }
 
+    @PostMapping(value = "/uploadTreatment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Treatment uploadTreatmentFile(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("description") String description,
+                                         @RequestParam("title") String title) {
+        Treatment treatment = service.storeTreatmentFile(file, description, title);
+        return treatment;
+    }
+
+    @PutMapping("/update/{id}")
+    public Treatment updateTreatment(@RequestParam("file") MultipartFile file,
+                                                     @RequestParam("description") String description,
+                                                     @RequestParam("title") String title,
+                                                     @PathVariable("id") String id) {
+        Treatment newTreatment = service.updateTreatmentFile(file,description,title,id);
+        return newTreatment;
+    }
+
+
     @DeleteMapping("/remove/{id}")
     public HttpStatus deleteTreatmentById(@PathVariable("id") String id) throws MyException {
         service.deleteTreatmentById(id);
         return HttpStatus.FORBIDDEN;
+    }
+
+    //restTemplate
+    @GetMapping("/dentistbytreatment/{title}")
+    public Dentist[] getDentistByTreatment(@PathVariable("title") String title) {
+        Treatment dentalTreatment = service.getTreatmentByTitle(title);
+
+        String url = "http://localhost:8030/dentalemployee/employeeList";
+        ResponseEntity<Dentist[]> response = restTemplate.getForEntity(url, Dentist[].class);
+
+        Dentist[] dentists = null;
+        log.debug("response code: " + response.getStatusCode().value());
+        if (response != null && response.getStatusCode().is2xxSuccessful() && response.hasBody() && response.getBody().length > 0) {
+            dentists = response.getBody();
+            for (Dentist d : dentists) {
+                d.getEmployeeID();
+                d.getEmployeeName();
+                d.setTitle(dentalTreatment.getTitle());
+                d.getEmail();
+                d.getPhone();
+            }
+        }
+        return dentists;
     }
 }

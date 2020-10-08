@@ -18,7 +18,7 @@ services:
     depends_on:
       - dental-mysql
     ports:
-      - :8030
+      - 1060:8030
     environment:
       - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
       - DATABASE_HOST=dental-mysql

@@ -2,10 +2,10 @@
 FROM node:latest
 
 # set the working dir for container
-WORKDIR /dental_ui
+WORKDIR /dental-ui
 
 # copy the json file first
-COPY ./package.json /dental_ui
+COPY ./package.json /dental-ui
 
 # install npm dependencies
 RUN npm install

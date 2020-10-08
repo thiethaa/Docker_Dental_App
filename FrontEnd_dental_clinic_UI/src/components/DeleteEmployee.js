@@ -24,7 +24,6 @@ export default class DeleteEmployee extends Component {
 
     getEmployees(){
         axios.get("http://localhost:8030/dentalemployee/employeeList")
-        // axios.get("http://localhost:8050/dentalemployee/employeeList")
             .then(response => response.data)
             .then ((data)=> {
                 this.setState ({employees : data});

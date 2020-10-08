@@ -22,8 +22,8 @@ services:
         ports:
             - "8761:8761"
 
-    treatment_service:
-        image: treatment_service
+    treatment-service:
+        image: treatment-service
         build:
             context: ./dental_Treatment_service
             dockerfile: /Users/mzaman/Documents/_docker_microservice/docker_Dental_Clinic_App/dental_Treatment_service/Dockerfile
@@ -42,8 +42,8 @@ services:
         links:
             - eureka-server
 
-    employee_service:
-        image: employee_service
+    employee-service:
+        image: employee-service
         build:
             context: ./dental_Employee_service
             dockerfile: /Users/mzaman/Documents/_docker_microservice/docker_Dental_Clinic_App/dental_Employee_service/Dockerfile
@@ -62,8 +62,8 @@ services:
         links:
             - eureka-server
 
-    patient_service:
-        image: patient_service
+    patient-service:
+        image: patient-service
         build:
             context: ./dental_Patient_service
             dockerfile: /Users/mzaman/Documents/_docker_microservice/docker_Dental_Clinic_App/dental_Patient_service/Dockerfile
@@ -83,11 +83,11 @@ services:
             - eureka-server
 
 
-    dental_clinic_ui:
+    dental-ui:
         build:
             context: ./FrontEnd_dental_clinic_UI
             dockerfile: /Users/mzaman/Documents/_docker_microservice/docker_Dental_Clinic_App/FrontEnd_dental_clinic_UI/Dockerfile
         command: npm run start
-        container_name: dental_clinic_ui
+        container_name: dental-ui
         ports:
             - "3000:3000"
