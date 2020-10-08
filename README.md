@@ -34,6 +34,14 @@ Step by step pull docker image, create and run it. locally:
 
 services:
 
+    version: '3'
+
+services:
+    eureka-server:
+        image: thiethaa/dental-eureka
+        ports:
+        -   8761:8761
+
     dental-mysql:
         image: mysql:latest
         environment:
@@ -45,9 +53,10 @@ services:
         ports:
             - 1010:3306
 
-    treatment_service:
+    treatment-service:
         image: thiethaa/dental-treatment
         depends_on:
+            - eureka-server
             - dental-mysql
         ports:
             - 8020:8020
@@ -57,10 +66,12 @@ services:
             - DATABASE_USER=root
             - DATABASE_PASSWORD=password
             - DATABASE_NAME=dental_clinic
+            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    employee_service:
+    employee-service:
         image: thiethaa/dental-employee
         depends_on:
+            - eureka-server
             - dental-mysql
         ports:
             - 8030:8030
@@ -70,10 +81,12 @@ services:
             - DATABASE_USER=root
             - DATABASE_PASSWORD=password
             - DATABASE_NAME=dental_clinic
+            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    patient_service:
+    patient-service:
         image: thiethaa/dental-patient
         depends_on:
+            - eureka-server
             - dental-mysql
         ports:
             - 8040:8040
@@ -83,17 +96,27 @@ services:
             - DATABASE_USER=root
             - DATABASE_PASSWORD=password
             - DATABASE_NAME=dental_clinic
+            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    dental_ui:
+    dental-ui:
         image: thiethaa/dental-ui
         command: npm run start
+        depends_on:
+            -   eureka-server
         ports:
             - "3000:3000"
+
 2. 
           docker-compose up -d dental-mysql
 3.
           docker-compose up
+          
 4. go to port : localhost 3000
+        login for setting up the app:
+                    
+                    username  : admin
+                    password  : password
+                    
 5. To Stop the Server
           docker-compose down
 
