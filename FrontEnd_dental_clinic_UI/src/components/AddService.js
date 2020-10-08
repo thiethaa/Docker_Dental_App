@@ -70,7 +70,6 @@ export default class addService extends Component {
 
 
     render() {
-        // const {title,description} = this.state;
         const formCss ={
             marginTop:'10%',marginBottom : '35px'
         };

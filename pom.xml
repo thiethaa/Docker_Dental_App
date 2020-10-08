@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
         <spring-props.version>2.2.2.RELEASE</spring-props.version>
     </properties>
 
@@ -37,6 +38,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>${spring-props.version}</version>
         </dependency>
 
         <dependency>
@@ -102,6 +109,7 @@
     </build>
 
     <modules>
+        <module>dental_eureka_server</module>
         <module>dental_Patient_service</module>
         <module>dental_Treatment_service</module>
         <module>dental_Employee_service</module>
