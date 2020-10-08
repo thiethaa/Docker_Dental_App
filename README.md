@@ -5,7 +5,7 @@ Step by Step dockerize microservice:
                     
                     mvn install -DskipTests
                     
-2. create docker-compose.yml file on the main root folder 
+2. create docker-compose.yml file on the main root folder : https://github.com/thiethaa/Docker_Dental_App/blob/master/docker-compose.yml
 3. build image
 
                     docker-compose up -d dental-mysql
