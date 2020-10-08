@@ -13,15 +13,17 @@ export default class Setting extends Component {
                 loggedIn=false
             }
         this.state={
-            employees : [],
-            loggedIn
+                services:[],
+                employees : [],
+                loggedIn
+            }
         }
-    }
 
     componentDidMount() {
         this.getEmployees();
     }
-    
+
+
     getEmployees(){
         axios.get("http://localhost:8030/dentalemployee/employeeList")
             .then(response => response.data)
@@ -47,10 +49,11 @@ export default class Setting extends Component {
         }
         return (
             <div style={formCss}>
-            <Link to="/addemployee"><Button variant="primary" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i className="fas fa-user-plus"></i></span>  Add Employee</Button></Link>
-            <Link to="/schedule"><Button variant="warning" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-list"></i></span>  Appointmen List</Button></Link>
-            <Link to="/adminpage"><Button variant="info" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-backward"></i></span>  Back</Button></Link>
-            <Link to="/signout"><Button variant="danger" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-sign-out-alt"></i></span>  SignOut</Button></Link>
+                <Link to="/addemployee"><Button variant="primary" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i className="fas fa-user-plus"></i></span>  Add Employee</Button></Link>
+                <Link to="/addservice"><Button variant="success" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i className="fas fa-plus-square"></i></span>  Add Service</Button></Link>
+                <Link to="/schedule"><Button variant="warning" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-list"></i></span>  Appointment List</Button></Link>
+                <Link to="/adminpage"><Button variant="info" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-backward"></i></span>  Back</Button></Link>
+                <Link to="/signout"><Button variant="danger" style={{boxShadow: ' 4px 4px navy', marginTop:'10px',marginBottom:'15px'}}><span><i class="fas fa-sign-out-alt"></i></span>  SignOut</Button></Link>
             {
                 this.state.employees.length === 0 ?
                 <h1 className="center">No Record Available</h1> :
