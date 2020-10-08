@@ -1,6 +1,21 @@
 # Docker_Dental_App
 
+Step by Step dockerize microservice:
+1. build jar file
+                    
+                    mvn install -DskipTests
+                    
+2. create docker-compose.yml file on the main root folder 
+3. build image
 
+                    docker-compose up -d dental-mysql
+                    docker-compose up -d eureka-server
+                    docker-compose up
+4. stop server
+
+                    docker-compose down
+
+Step by step pull docker image, create and run it. locally:
 1. create Empty directory and create docker-compose.yml then Copy-Paste this yml file:
           version: '3'
 
