@@ -69,8 +69,13 @@ services:
 5. To Stop the Server
           docker-compose down
 
-add dental_Services>> open Postman : form data (file:file, text:title,text:description)
-          POST: http://localhost:8020/dentaltreatments/uploadTreatment   
-add dental_employee >> open Postman : form data (file:file,text:name, text:position,text:email,text:fb, text:twitter,text:ig,text:phone)
+add dental_Services>> open Postman : 
+          
+          form data (file:file, text:title,text:description)
+          POST: http://localhost:8020/dentaltreatments/uploadTreatment  
+          
+add dental_employee >> open Postman : 
+          
+          form data (file:file,text:name, text:position,text:email,text:fb,                text:twitter,text:ig,text:phone)
           POST: http://localhost:8030/dentalemployee/addEmployee
         
