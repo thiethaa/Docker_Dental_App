@@ -103,9 +103,14 @@ Step by step pull docker image, create and run it. locally:
                   ports:
                       - "3000:3000"
 
-2. 
+2. build and run DB mysql and discovery eureka 
+
           docker-compose up -d dental-mysql
-3.
+          
+          docker-compose up -d eureka-server
+          
+3. build and run entire app:
+
           docker-compose up
           
 4. go to port : localhost 3000
@@ -115,6 +120,7 @@ Step by step pull docker image, create and run it. locally:
                     password  : password
                     
 5. To Stop the Server
+
           docker-compose down
 
 add dental_Services>> open Postman : 
