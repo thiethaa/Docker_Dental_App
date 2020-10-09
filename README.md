@@ -30,81 +30,78 @@ Step by Step dockerize microservice:
 
 Step by step pull docker image, create and run it. locally:
 1. create Empty directory and create docker-compose.yml then Copy-Paste this yml file:
-          version: '3'
 
-services:
+              version: '3'
 
-    version: '3'
+              services:
+              eureka-server:
+                  image: thiethaa/dental-eureka
+                  ports:
+                  -   8761:8761
 
-services:
-    eureka-server:
-        image: thiethaa/dental-eureka
-        ports:
-        -   8761:8761
+              dental-mysql:
+                  image: mysql:latest
+                  environment:
+                      - MYSQL_ROOT_PASSWORD=password
+                      - MYSQL_DATABASE=dental_clinic
+                      - MYSQL_USER=root
+                      - MYSQL_PASSWORD=password
+                      - MYSQL_NAME=dental_app
+                  ports:
+                      - 1010:3306
 
-    dental-mysql:
-        image: mysql:latest
-        environment:
-            - MYSQL_ROOT_PASSWORD=password
-            - MYSQL_DATABASE=dental_clinic
-            - MYSQL_USER=root
-            - MYSQL_PASSWORD=password
-            - MYSQL_NAME=dental_app
-        ports:
-            - 1010:3306
+              treatment-service:
+                  image: thiethaa/dental-treatment
+                  depends_on:
+                      - eureka-server
+                      - dental-mysql
+                  ports:
+                      - 8020:8020
+                  environment:
+                      - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
+                      - DATABASE_HOST=dental-mysql
+                      - DATABASE_USER=root
+                      - DATABASE_PASSWORD=password
+                      - DATABASE_NAME=dental_clinic
+                      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    treatment-service:
-        image: thiethaa/dental-treatment
-        depends_on:
-            - eureka-server
-            - dental-mysql
-        ports:
-            - 8020:8020
-        environment:
-            - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
-            - DATABASE_HOST=dental-mysql
-            - DATABASE_USER=root
-            - DATABASE_PASSWORD=password
-            - DATABASE_NAME=dental_clinic
-            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+              employee-service:
+                  image: thiethaa/dental-employee
+                  depends_on:
+                      - eureka-server
+                      - dental-mysql
+                  ports:
+                      - 8030:8030
+                  environment:
+                      - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
+                      - DATABASE_HOST=dental-mysql
+                      - DATABASE_USER=root
+                      - DATABASE_PASSWORD=password
+                      - DATABASE_NAME=dental_clinic
+                      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    employee-service:
-        image: thiethaa/dental-employee
-        depends_on:
-            - eureka-server
-            - dental-mysql
-        ports:
-            - 8030:8030
-        environment:
-            - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
-            - DATABASE_HOST=dental-mysql
-            - DATABASE_USER=root
-            - DATABASE_PASSWORD=password
-            - DATABASE_NAME=dental_clinic
-            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
+              patient-service:
+                  image: thiethaa/dental-patient
+                  depends_on:
+                      - eureka-server
+                      - dental-mysql
+                  ports:
+                      - 8040:8040
+                  environment:
+                      - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
+                      - DATABASE_HOST=dental-mysql
+                      - DATABASE_USER=root
+                      - DATABASE_PASSWORD=password
+                      - DATABASE_NAME=dental_clinic
+                      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
 
-    patient-service:
-        image: thiethaa/dental-patient
-        depends_on:
-            - eureka-server
-            - dental-mysql
-        ports:
-            - 8040:8040
-        environment:
-            - DATABASE_URL=jdbc:mysql://dental-mysql:3306/dental_clinic?serverTimezone=UTC
-            - DATABASE_HOST=dental-mysql
-            - DATABASE_USER=root
-            - DATABASE_PASSWORD=password
-            - DATABASE_NAME=dental_clinic
-            - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka
-
-    dental-ui:
-        image: thiethaa/dental-ui
-        command: npm run start
-        depends_on:
-            -   eureka-server
-        ports:
-            - "3000:3000"
+              dental-ui:
+                  image: thiethaa/dental-ui
+                  command: npm run start
+                  depends_on:
+                      -   eureka-server
+                  ports:
+                      - "3000:3000"
 
 2. 
           docker-compose up -d dental-mysql
